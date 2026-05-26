@@ -12,7 +12,6 @@ part 'login_store.g.dart';
 class UserStore = _UserStore with _$UserStore;
 
 abstract class _UserStore with Store {
-  // constructor:---------------------------------------------------------------
   _UserStore(
     this._isLoggedInUseCase,
     this._saveLoginStatusUseCase,
@@ -20,41 +19,43 @@ abstract class _UserStore with Store {
     this.formErrorStore,
     this.errorStore,
   ) {
-    // setting up disposers
     _setupDisposers();
 
-    // checking if user is logged in
-    _isLoggedInUseCase.call(params: null).then((value) async {
+    _isLoggedInUseCase
+        .call(
+      params: null,
+    )
+        .then((value) {
       isLoggedIn = value;
     });
   }
 
-  // use cases:-----------------------------------------------------------------
   final IsLoggedInUseCase _isLoggedInUseCase;
+
   final SaveLoginStatusUseCase _saveLoginStatusUseCase;
+
   final LoginUseCase _loginUseCase;
 
-  // stores:--------------------------------------------------------------------
-  // for handling form errors
   final FormErrorStore formErrorStore;
 
-  // store for handling error messages
   final ErrorStore errorStore;
 
-  // disposers:-----------------------------------------------------------------
   late List<ReactionDisposer> _disposers;
 
   void _setupDisposers() {
     _disposers = [
-      reaction((_) => success, (_) => success = false, delay: 200),
+      reaction(
+        (_) => success,
+        (_) => success = false,
+        delay: 200,
+      ),
     ];
   }
 
-  // empty responses:-----------------------------------------------------------
-  static ObservableFuture<User?> emptyLoginResponse =
-      ObservableFuture.value(null);
+  static ObservableFuture<User?> emptyLoginResponse = ObservableFuture.value(
+    null,
+  );
 
-  // store variables:-----------------------------------------------------------
   bool isLoggedIn = false;
 
   @observable
@@ -64,36 +65,60 @@ abstract class _UserStore with Store {
   ObservableFuture<User?> loginFuture = emptyLoginResponse;
 
   @computed
-  bool get isLoading => loginFuture.status == FutureStatus.pending;
+  bool get isLoading {
+    return loginFuture.status == FutureStatus.pending;
+  }
 
-  // actions:-------------------------------------------------------------------
   @action
-  Future login(String email, String password) async {
-    final LoginParams loginParams =
-        LoginParams(username: email, password: password);
-    final future = _loginUseCase.call(params: loginParams);
-    loginFuture = ObservableFuture(future);
+  Future login(
+    String email,
+    String password,
+  ) async {
+    try {
+      final params = LoginParams(
+        username: email,
+        password: password,
+      );
 
-    await future.then((value) async {
+      final future = _loginUseCase.call(
+        params: params,
+      );
+
+      loginFuture = ObservableFuture(
+        future,
+      );
+
+      final value = await future;
+
       if (value != null) {
-        await _saveLoginStatusUseCase.call(params: true);
-        this.isLoggedIn = true;
-        this.success = true;
+        await _saveLoginStatusUseCase.call(
+          params: true,
+        );
+
+        isLoggedIn = true;
+
+        success = true;
       }
-    }).catchError((e) {
-      print(e);
-      this.isLoggedIn = false;
-      this.success = false;
-      throw e;
-    });
+    } catch (e) {
+      errorStore.errorMessage = e.toString().replaceAll(
+            "Exception: ",
+            "",
+          );
+
+      isLoggedIn = false;
+
+      success = false;
+    }
   }
 
   logout() async {
-    this.isLoggedIn = false;
-    await _saveLoginStatusUseCase.call(params: false);
+    isLoggedIn = false;
+
+    await _saveLoginStatusUseCase.call(
+      params: false,
+    );
   }
 
-  // general methods:-----------------------------------------------------------
   void dispose() {
     for (final d in _disposers) {
       d();

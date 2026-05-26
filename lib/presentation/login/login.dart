@@ -195,17 +195,45 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget navigate(BuildContext context) {
+  Widget navigate(
+    BuildContext context,
+  ) {
     SharedPreferences.getInstance().then((prefs) {
-      prefs.setBool(Preferences.is_logged_in, true);
+      prefs.setBool(
+        Preferences.is_logged_in,
+        true,
+      );
     });
 
-    Future.delayed(Duration(milliseconds: 0), () {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          Routes.home, (Route<dynamic> route) => false);
-    });
+    Future.delayed(
+      Duration.zero,
+      () {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Login berhasil",
+            ),
+            backgroundColor: Colors.green,
+          ),
+        );
 
-    return Container();
+        Future.delayed(
+          Duration(
+            milliseconds: 700,
+          ),
+          () {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.home,
+              (route) => false,
+            );
+          },
+        );
+      },
+    );
+
+    return SizedBox();
   }
 
   // General Methods:-----------------------------------------------------------

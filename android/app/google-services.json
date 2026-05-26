@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "309848691890",
+    "project_id": "fir-xflutterxauth-1b024",
+    "storage_bucket": "fir-xflutterxauth-1b024.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309848691890:android:5a21bf86f038fb37bae5ab",
+        "android_client_info": {
+          "package_name": "com.example.konversisuhufirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByRphSuPDsM2dLF1Goi_T5Iz5np7lwtqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309848691890:android:397b8ca9eac10210bae5ab",
+        "android_client_info": {
+          "package_name": "com.iotecksolutions.todoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByRphSuPDsM2dLF1Goi_T5Iz5np7lwtqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

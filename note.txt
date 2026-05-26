@@ -1,0 +1,21 @@
+Catatan Progress Integrasi Firebase + Boilerplate
+
+- Menambahkan dependency firebase_core dan firebase_auth
+- Membuat project Firebase
+- Register aplikasi Android ke Firebase
+- Menambahkan google-services.json ke folder android/app
+- Konfigurasi Firebase Gradle
+- Menjalankan flutterfire configure
+- Membuat firebase_options.dart
+- Menambahkan Firebase.initializeApp() di main.dart
+- Mengaktifkan Firebase Authentication (Email/Password)
+- Membuat akun Firebase untuk testing login
+- Menghubungkan Firebase Authentication ke boilerplate
+- Menghubungkan login boilerplate ke Firebase
+- Menambahkan notifikasi login berhasil
+- Menambahkan notifikasi login gagal
+- Menambahkan halaman Konversi Suhu ke boilerplate
+- Menambahkan Route Konversi Suhu
+- Menambahkan BlocProvider Konversi Suhu
+- Memperbaiki error Provider<SuhuBloc>
+- Integrasi fitur Konversi Suhu ke boilerplate
