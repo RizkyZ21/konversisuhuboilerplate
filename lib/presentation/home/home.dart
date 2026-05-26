@@ -15,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  //stores:---------------------------------------------------------------------
   final ThemeStore _themeStore = getIt<ThemeStore>();
   final LanguageStore _languageStore = getIt<LanguageStore>();
 
@@ -23,14 +22,39 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      body: PostListScreen(),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  print("TOMBOL DIPENCET");
+                  Navigator.pushNamed(
+                    context,
+                    Routes.suhu,
+                  );
+                },
+                child: const Text(
+                  "Konversi Suhu",
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: PostListScreen(),
+          ),
+        ],
+      ),
     );
   }
 
-  // app bar methods:-----------------------------------------------------------
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text(AppLocalizations.of(context).translate('home_tv_posts')),
+      title: Text(
+        AppLocalizations.of(context).translate('home_tv_posts'),
+      ),
       actions: _buildActions(context),
     );
   }
@@ -48,7 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context) {
         return IconButton(
           onPressed: () {
-            _themeStore.changeBrightnessToDark(!_themeStore.darkMode);
+            _themeStore.changeBrightnessToDark(
+              !_themeStore.darkMode,
+            );
           },
           icon: Icon(
             _themeStore.darkMode ? Icons.brightness_5 : Icons.brightness_3,
@@ -62,11 +88,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return IconButton(
       onPressed: () {
         SharedPreferences.getInstance().then((preference) {
-          preference.setBool(Preferences.is_logged_in, false);
-          Navigator.of(context).pushReplacementNamed(Routes.login);
+          preference.setBool(
+            Preferences.is_logged_in,
+            false,
+          );
+
+          Navigator.of(context).pushReplacementNamed(
+            Routes.login,
+          );
         });
       },
-      icon: Icon(
+      icon: const Icon(
         Icons.power_settings_new,
       ),
     );
@@ -77,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onPressed: () {
         _buildLanguageDialog();
       },
-      icon: Icon(
+      icon: const Icon(
         Icons.language,
       ),
     );
@@ -87,26 +119,17 @@ class _HomeScreenState extends State<HomeScreen> {
     _showDialog<String>(
       context: context,
       child: AlertDialog(
-        // borderRadius: 5.0,
-        // enableFullWidth: true,
-
         title: Text(
-          AppLocalizations.of(context).translate('home_tv_choose_language'),
+          AppLocalizations.of(context).translate(
+            'home_tv_choose_language',
+          ),
         ),
-        // headerColor: Theme.of(context).primaryColor,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        // closeButtonColor: Colors.white,
-        // enableCloseButton: true,
-        // enableBackButton: false,
-        // onCloseButtonClicked: () {
-        //   Navigator.of(context).pop();
-        // },
         actions: _languageStore.supportedLanguages
-            // children: _languageStore.supportedLanguages
             .map(
               (object) => ListTile(
                 dense: true,
-                contentPadding: EdgeInsets.all(0.0),
+                contentPadding: EdgeInsets.zero,
                 title: Text(
                   object.language,
                   style: TextStyle(
@@ -119,8 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
-                  // change user language based on selected locale
-                  _languageStore.changeLanguage(object.locale);
+
+                  _languageStore.changeLanguage(
+                    object.locale,
+                  );
                 },
               ),
             )
@@ -129,12 +154,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _showDialog<T>({required BuildContext context, required Widget child}) {
+  _showDialog<T>({
+    required BuildContext context,
+    required Widget child,
+  }) {
     showDialog<T>(
       context: context,
-      builder: (BuildContext context) => child,
-    ).then<void>((T? value) {
-      // The value passed to Navigator.pop() or null.
-    });
+      builder: (context) => child,
+    );
   }
 }

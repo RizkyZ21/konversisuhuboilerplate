@@ -27,17 +27,20 @@ dependencies:
   # D
   dio: ^5.1.1
   # E
+  equatable: ^2.0.7
   event_bus: ^2.0.0
   # F
   flutter_mobx: ^2.0.6+5
+  flutter_bloc: ^9.1.1
   # G
   get_it: ^7.2.0
-  google_fonts: ^4.0.3
+  google_fonts: ^6.2.1
   # H
-  http: ^0.13.5
+  http: ^1.2.2
   # I
-  intl: ^0.19.0
+  intl: ^0.20.2
   # J
+  json_annotation: ^4.9.0
   json_serializable: ^6.6.1
   # K
   # L
